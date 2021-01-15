@@ -11,29 +11,42 @@ import {
 
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import * as Animatable from 'react-native-animatable'
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image
+        <Animatable.Image
+            animation="bounceIn"
+            // duration="1500"
           source={require('../../assets/logo2.png')}
           style={styles.logo}
           resizeMode="stretch"
         />
       </View>
-      <View style={styles.footer}>
+      <Animatable.View 
+      style={styles.footer}
+      animation="fadeInUpBig"
+      >
         <Text style={styles.title}>Stay connected with everyone</Text>
         <Text style={styles.text}>Sign In with account</Text>
-        <TouchableOpacity>
+        <View style={styles.button}>
+        <TouchableOpacity onPress={() =>navigation.navigate('SignInScreen')}>
             <LinearGradient
             colors={['#08d4cd', '#01ab9d']}
             style={styles.signIn}
             >
-                <Text style={styles.te}>Get Started</Text>
+                <Text style={styles.textSign}>Get Started</Text>
+                <MaterialIcons 
+                name="navigate-next"
+                color="#fff"
+                size={20}
+                />
             </LinearGradient>
         </TouchableOpacity>
-      </View>
+        </View>
+      </Animatable.View>
     </View>
   );
 };
