@@ -6,13 +6,14 @@ import {
   StyleSheet,
   Platform,
   TextInput,
+  TouchableOpacity
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
-const SignInScreen = () => {
+const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
     email: '',
     password: '',
@@ -35,6 +36,22 @@ const SignInScreen = () => {
       });
     }
   };
+
+  const handlePasswordChange = (val) => { 
+      setData({
+          ...data,
+          password: val,
+
+      });
+  }
+
+  const updateSecureTextEntry = () => { 
+      setData ({
+          ...data,
+          secureTextEntry: !data.secureTextEntry
+      });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -43,7 +60,10 @@ const SignInScreen = () => {
       <View style={styles.footer}>
         <Text style={styles.text_footer}>Email</Text>
         <View style={styles.action}>
-          <FontAwesome name="user-o" color="#05375a" size={20} />
+          <FontAwesome 
+            name="user-o" 
+            color="#05375a" 
+            size={20} />
           <TextInput
             placeholder="Email"
             style={styles.textInput}
@@ -67,11 +87,43 @@ const SignInScreen = () => {
           <FontAwesome name="lock" color="#05375a" size={20} />
           <TextInput
             placeholder="Your Password"
-            secureTextEntry={true}
+            secureTextEntry={data.secureTextEntry? true : false}
             style={styles.textInput}
             autoCapitalize="none"
+            onChangeText={(val) => handlePasswordChange(val)}
           />
-          <Feather name="eye-off" color="grey" size={20} />
+          <TouchableOpacity
+          onPress={updateSecureTextEntry}
+          >
+              {data.secureTextEntry ?
+          <Feather 
+            name="eye-off" 
+            color="grey" 
+            size={20} />
+            :
+            <Feather 
+            name="eye" 
+            color="grey" 
+            size={20} />
+              }
+
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.button}>
+            <LinearGradient
+            colors={['#08d4c4','#01ab9d']}
+            style={styles.signIn}
+            >
+                <Text style={[styles.textSign,{
+                    color:'#fff'
+                    }]}>Sign In</Text>
+            </LinearGradient>
+            <TouchableOpacity
+                onPress={()=>navigation.navigate('SignUpScreen')}
+            >
+                <Text>Sign Up </Text>
+            </TouchableOpacity>
         </View>
       </View>
     </View>
