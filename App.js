@@ -27,11 +27,11 @@ import { ActivityIndicator } from 'react-native-paper';
 const Drawer = createDrawerNavigator();
 
 const App = () => {
-//   const [isLoading, setIsLoading] = React.useState(true);
-//   const [userToken, setUserToken] = React.useState(null);
+  // const [isLoading, setIsLoading] = React.useState(true);
+  // const [userToken, setUserToken] = React.useState(null);
 
 const initialLoginState = {
-  isLoading: false,
+  isLoading: true,
   userName: null, 
   userToken: null,
 };
@@ -41,48 +41,65 @@ const loginReducer = (prevState, action) => {
     case'RETRIEVE_TOKEN':
       return{
         ...prevState,
-       
+       userToken:action.token,
         isLoading: false,
       };
     case'LOGIN':
       return{
         ...prevState,
+        userName: action.id,
+        userToken: action.token, 
         isLoading: false,
       }
     case'LOGOUT':
       return{
         ...prevState,
+        userName: null,
+        userToken:null,
         isLoading: false,
       }
     case'REGISTER':
       return{
         ...prevState,
+        userName: action.id,
+        userToken: action.token, 
         isLoading: false,
       }
   }
 }
 
+const [loginState, dispatch] = React.useReducer(loginReducer,initialLoginState)
+
   const authContext= React.useMemo ( () => ({
-    signIn:() =>{},
-    signOut:() =>{},
-    signUp:() =>{},
+    signIn:() =>{
+      // setUserToken('sjhds');
+      // setIsLoading(false)
+    },
+    signOut:() =>{
+      setUserToken(null);
+      setIsLoading(false)
+    },
+    signUp:() =>{
+      setUserToken('sjhds');
+      setIsLoading(false)
+    },
 
   }), [])
 
-  useEffect(() => {
-    setTimeout(()=>{
-      setIsLoading(false);
-    }, 1000);
-  },[]);
+  // useEffect(() => {
+  //   setTimeout(()=>{
+  //     setIsLoading(false);
+  //   }, 1000);
+  // },[]);
 
 
-  if (isLoading){
-    return( 
-      <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
-        <ActivityIndicator size="large"/>
-      </View>
-    )
-  }
+  // if (isLoading){
+  //   return( 
+  //     <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
+  //       <ActivityIndicator size="large"/>
+  //     </View>
+  //   )
+  // }
 
   return (
     <AuthContext.Provider value={authContext}>

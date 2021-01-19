@@ -104,7 +104,14 @@ const {signIn} = React.useContext(AuthContext)
           </TouchableOpacity>
         </View>
 
+<TouchableOpacity>
+    <Text style={{color:'#009387', marginTop: 15}}> Forgot password</Text>
+</TouchableOpacity>
+
         <View style={styles.button}>
+            <TouchableOpacity
+            style={styles.signIn}
+            onPress={()=>{signIn()}}>
           <LinearGradient colors={['#08d4c4', '#01ab9d']} style={styles.signIn}>
             <Text
               style={[
@@ -116,6 +123,7 @@ const {signIn} = React.useContext(AuthContext)
               Sign In
             </Text>
           </LinearGradient>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('SignUpScreen')}
             style={[
