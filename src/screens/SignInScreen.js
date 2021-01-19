@@ -6,12 +6,15 @@ import {
   StyleSheet,
   Platform,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  StatusBar
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+
+import {AuthContext} from '../../components/context'
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -20,7 +23,7 @@ const SignInScreen = ({navigation}) => {
     check_textInputChange: false,
     secureTextEntry: true,
   });
-
+const {signIn} = React.useContext(AuthContext)
   const textInputChange = (val) => {
     if (val.length != 0) {
       setData({
@@ -37,33 +40,33 @@ const SignInScreen = ({navigation}) => {
     }
   };
 
-  const handlePasswordChange = (val) => { 
-      setData({
-          ...data,
-          password: val,
+  const handlePasswordChange = (val) => {
+    setData({
+      ...data,
+      password: val,
+    });
+  };
 
-      });
-  }
-
-  const updateSecureTextEntry = () => { 
-      setData ({
-          ...data,
-          secureTextEntry: !data.secureTextEntry
-      });
-  }
+  const updateSecureTextEntry = () => {
+    setData({
+      ...data,
+      secureTextEntry: !data.secureTextEntry,
+    });
+  };
 
   return (
     <View style={styles.container}>
+<StatusBar  backgroundColor='#009387' barStyle='light-content'/>
       <View style={styles.header}>
         <Text style={styles.text_header}>Welcome</Text>
       </View>
-      <View style={styles.footer}>
+      <Animatable.View 
+        style={styles.footer}
+        animation="fadeInUpBig"
+      >
         <Text style={styles.text_footer}>Email</Text>
         <View style={styles.action}>
-          <FontAwesome 
-            name="user-o" 
-            color="#05375a" 
-            size={20} />
+          <FontAwesome name="user-o" color="#05375a" size={20} />
           <TextInput
             placeholder="Email"
             style={styles.textInput}
@@ -87,45 +90,54 @@ const SignInScreen = ({navigation}) => {
           <FontAwesome name="lock" color="#05375a" size={20} />
           <TextInput
             placeholder="Your Password"
-            secureTextEntry={data.secureTextEntry? true : false}
+            secureTextEntry={data.secureTextEntry ? true : false}
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={(val) => handlePasswordChange(val)}
           />
-          <TouchableOpacity
-          onPress={updateSecureTextEntry}
-          >
-              {data.secureTextEntry ?
-          <Feather 
-            name="eye-off" 
-            color="grey" 
-            size={20} />
-            :
-            <Feather 
-            name="eye" 
-            color="grey" 
-            size={20} />
-              }
-
+          <TouchableOpacity onPress={updateSecureTextEntry}>
+            {data.secureTextEntry ? (
+              <Feather name="eye-off" color="grey" size={20} />
+            ) : (
+              <Feather name="eye" color="grey" size={20} />
+            )}
           </TouchableOpacity>
         </View>
 
         <View style={styles.button}>
-            <LinearGradient
-            colors={['#08d4c4','#01ab9d']}
-            style={styles.signIn}
-            >
-                <Text style={[styles.textSign,{
-                    color:'#fff'
-                    }]}>Sign In</Text>
-            </LinearGradient>
-            <TouchableOpacity
-                onPress={()=>navigation.navigate('SignUpScreen')}
-            >
-                <Text>Sign Up </Text>
-            </TouchableOpacity>
+          <LinearGradient colors={['#08d4c4', '#01ab9d']} style={styles.signIn}>
+            <Text
+              style={[
+                styles.textSign,
+                {
+                  color: '#fff',
+                },
+              ]}>
+              Sign In
+            </Text>
+          </LinearGradient>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SignUpScreen')}
+            style={[
+              styles.signIn,
+              {
+                borderColor: '#009387',
+                borderWidth: 1,
+                marginTop: 15,
+              },
+            ]}>
+            <Text
+              style={[
+                styles.textSign,
+                {
+                  color: '#009387',
+                },
+              ]}>
+              Sign Up{' '}
+            </Text>
+          </TouchableOpacity>
         </View>
-      </View>
+      </Animatable.View>
     </View>
   );
 };
