@@ -24,6 +24,7 @@ const SignInScreen = ({navigation}) => {
     secureTextEntry: true,
   });
 const {signIn} = React.useContext(AuthContext)
+
   const textInputChange = (val) => {
     if (val.length != 0) {
       setData({
@@ -52,6 +53,10 @@ const {signIn} = React.useContext(AuthContext)
       ...data,
       secureTextEntry: !data.secureTextEntry,
     });
+  };
+
+  const loginHandle= (username, password) =>{
+      signIn(username, password);
   };
 
   return (
